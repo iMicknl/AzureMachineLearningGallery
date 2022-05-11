@@ -60,7 +60,6 @@ inputs:
     - http
     default: https
     optional: false
-
 outputs:
   results_dataset:
     type: DataFrameDirectory
