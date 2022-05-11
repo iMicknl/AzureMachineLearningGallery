@@ -31,7 +31,7 @@ def main():
     parser.add_argument('--port', type=str, help='')
 
     # Output
-    parser.add_argument('--results_dataset', type=str, help='dataframe')
+    parser.add_argument('--output-dir', type=str, help='dataframe')
 
     args = parser.parse_args()
     input_args = [args.host, args.user, args.password, args.account,  args.warehouse, args.database, args.schema, args.protocol, args.port]
@@ -72,7 +72,7 @@ def main():
         cur.close()
 
     # Fetch the result set from the cursor and deliver it as the Pandas DataFrame.
-    save_data_frame_to_directory(save_to=args.results_dataset,
+    save_data_frame_to_directory(save_to=args.output_dir,
                                  data=snowflake_df,
                                  schema=DataFrameSchema.data_frame_to_dict(snowflake_df))
 
