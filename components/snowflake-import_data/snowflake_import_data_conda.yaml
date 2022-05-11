@@ -5,8 +5,7 @@ dependencies:
 - python=3.9
 - pip=20.2
 - pip:
-  - snowflake-connector-python[secure-local-storage,pandas]
   - azureml-designer-core==0.0.68
   - azureml-defaults
-  - pyarrow
   - numpy==1.18.5
+  - snowflake-connector-python[secure-local-storage,pandas] # Will Pandas-compatible version of the Snowflake Connector for Python and PyArrow
