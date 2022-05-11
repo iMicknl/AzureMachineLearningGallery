@@ -13,6 +13,43 @@ inputs:
     default: snowflake_host
     description: Secret name where Snowflake host is stored in Keyvault
     optional: false
+  snowflake_user:
+    type: String
+    default: snowflake_user
+    description: Secret name where Snowflake user is stored in Keyvault
+    optional: false
+  snowflake_password:
+    type: String
+    default: snowflake_password
+    description: Secret name where Snowflake host is stored in Keyvault
+    optional: false
+  snowflake_account:
+    type: String
+    default: snowflake_account
+    description: Secret name where Snowflake account is stored in Keyvault
+    optional: false
+  snowflake_warehouse:
+    type: String
+    default: snowflake_warehouse
+    description: Secret name where Snowflake warehouse is stored in Keyvault
+    optional: false
+  snowflake_database:
+    type: String
+    default: snowflake_database
+    description: Secret name where Snowflake database is stored in Keyvault
+    optional: false
+  snowflake_schema:
+    type: String
+    default: snowflake_schema
+    description: Secret name where Snowflake schema is stored in Keyvault
+    optional: false
+  snowflake_protocol:
+    type: Mode
+    enum:
+    - https
+    - http
+    default: https
+    optional: false
 outputs:
   results_dataset:
     type: DataFrameDirectory
