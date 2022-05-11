@@ -1,13 +1,19 @@
 $schema: http://azureml/sdk-2-0/CommandComponent.json
 name: microsoft.com.snowflake.import_data
-version: 0.0.1.1
+version: 0.0.1.3
 display_name: Import Snowflake Data
 type: CommandComponent
 description: Load data from Snowflake.
 tags:
   Snowflake:
+  Data:
   contact: https://github.com/azure/AzureMachineLearningGallery
 inputs:
+  snowflake_query:
+    type: String
+    default: SELECT * FROM t
+    description: Query to run
+    optional: false
   snowflake_host:
     type: String
     default: snowflake_host
@@ -50,11 +56,26 @@ inputs:
     - http
     default: https
     optional: false
+  snowflake_port:
+    type: Integer
+    default: 443
+    optional: false
 outputs:
   results_dataset:
     type: DataFrameDirectory
 command: >-
-  python import_data.py --host {inputs.snowflake_host} --output-dir {outputs.results_dataset}
+  python import_data.py
+  --query {inputs.snowflake_query}
+  --host {inputs.snowflake_host} 
+  --user {inputs.snowflake_user} 
+  --password {inputs.snowflake_password} 
+  --account {inputs.snowflake_account} 
+  --warehouse {inputs.snowflake_warehouse} 
+  --database {inputs.snowflake_warehouse} 
+  --schema {inputs.snowflake_schema} 
+  --protocol {inputs.snowflake_protocol} 
+  --port {inputs.snowflake_port}
+  --output-dir {outputs.results_dataset}
 environment:
   conda:
     conda_dependencies_file: snowflake_import_data_conda.yaml

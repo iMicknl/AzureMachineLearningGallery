@@ -3,9 +3,10 @@ channels:
 - defaults
 dependencies:
 - python=3.9
-- pip=22.0
+- pip=20.2
 - pip:
   - snowflake-connector-python[secure-local-storage,pandas]
-  - azureml-designer-core==0.0.54
+  - azureml-designer-core==0.0.68
   - azureml-defaults
   - pyarrow
+  - numpy==1.18.5
