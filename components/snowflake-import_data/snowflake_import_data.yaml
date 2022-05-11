@@ -1,6 +1,6 @@
 $schema: http://azureml/sdk-2-0/CommandComponent.json
 name: microsoft.com.snowflake.import_data
-version: 0.0.1.3
+version: 0.0.1.4
 display_name: Import Snowflake Data
 type: CommandComponent
 description: Load data from Snowflake.

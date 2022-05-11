@@ -1,5 +1,6 @@
 import argparse
-import snowflake
+import snowflake.connector
+
 from azureml.core import Run
 from azureml.studio.core.io.data_frame_directory import save_data_frame_to_directory
 from azureml.studio.core.data_frame_schema import DataFrameSchema
@@ -52,14 +53,19 @@ def main():
     # Execute a statement that will generate a result set.
     sql = args.query or "SELECT * FROM t"
     
-    cur.execute(sql) 
+    try:
+        cur.execute(sql) 
+        df = cur.fetch_pandas_all() # consider using cur.fetch_pandas_batches()
+    finally:
+        # Always close connections if there is an error
+        cur.close()
 
     # Fetch the result set from the cursor and deliver it as the Pandas DataFrame.
-    df = cur.fetch_pandas_all() # consider using cur.fetch_pandas_batches()
-
     save_data_frame_to_directory(save_to=args.results_dataset,
                                  data=df,
                                  schema=DataFrameSchema.data_frame_to_dict(df))
+
+    ctx.close()
 
 if __name__ == '__main__':
     main()
