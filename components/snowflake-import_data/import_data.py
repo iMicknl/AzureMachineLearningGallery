@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--database', type=str, help='')
     parser.add_argument('--schema', type=str, help='')
     parser.add_argument('--protocol', type=str, help='')
+    parser.add_argument('--port', type=str, help='')
 
     # Output
     parser.add_argument('--results_dataset', type=str, help='dataframe')
