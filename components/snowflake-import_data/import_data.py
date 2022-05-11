@@ -34,8 +34,7 @@ def main():
     parser.add_argument('--output-dir', type=str, help='dataframe')
 
     args = parser.parse_args()
-    input_args = [args.host, args.user, args.password, args.account,  args.warehouse, args.database, args.schema, args.protocol, args.port]
-
+    input_args = [args.host, args.user, args.password, args.account,  args.warehouse, args.database, args.schema, args.protocol]
     logger.debug("Received the following input: ", input_args)
 
     # Retrieve secrets via code in submitted run
@@ -43,14 +42,14 @@ def main():
 
     if isinstance(run, _OfflineRun):
         # Retrieve values from arguments
-        host, user, password, account, warehouse, database, schema, protocol, port = input_args
+        host, user, password, account, warehouse, database, schema, protocol = input_args
     else:
         # Retrieve values from KeyVault
-        host, user, password, account, warehouse, database, schema, protocol, port = run.get_secrets(input_args)
+        host, user, password, account, warehouse, database, schema, protocol = run.get_secrets(input_args)
         
         logger.debug("Got host from keyvault -> ", host) # TODO NEVER LOG THIS IN PRODUCTION, JUST FOR TESTING
-
-        
+    
+    port = args.port        
 
     ctx = snowflake.connector.connect(
             host=host,
