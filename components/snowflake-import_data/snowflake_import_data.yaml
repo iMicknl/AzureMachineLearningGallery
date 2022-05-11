@@ -8,11 +8,16 @@ tags:
   Snowflake:
   contact: https://github.com/azure/AzureMachineLearningGallery
 inputs:
+  snowflake_host:
+    type: String
+    default: snowflake_host
+    description: Secret name where Snowflake host is stored in Keyvault
+    optional: false
 outputs:
   results_dataset:
     type: DataFrameDirectory
 command: >-
-  python import_data.py --output-dir {outputs.results_dataset}
+  python import_data.py --host {inputs.snowflake_host} --output-dir {outputs.results_dataset}
 environment:
   conda:
     conda_dependencies_file: snowflake_import_data_conda.yaml
