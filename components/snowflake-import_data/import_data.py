@@ -5,6 +5,7 @@ from azureml.core import Run
 from azureml.studio.core.io.data_frame_directory import save_data_frame_to_directory
 from azureml.studio.core.data_frame_schema import DataFrameSchema
 from azureml.studio.core.logger import module_logger as logger
+from azureml.core.run import _OfflineRun
 
 def main():
     logger.debug("Initializing Snowflake Import Data component ...")
@@ -31,11 +32,17 @@ def main():
     parser.add_argument('--results_dataset', type=str, help='dataframe')
 
     args = parser.parse_args()
+    input_args = [args.host, args.user, args.password, args.account,  args.warehouse, args.database, args.schema, args.protocol, args.port]
 
     # Retrieve secrets via code in submitted run
     run = Run.get_context()
-    secrets = [args.host, args.user, args.password, args.account,  args.warehouse, args.database, args.schema, args.protocol, args.port]
-    host, user, password, account, warehouse, database, schema, protocol, port = run.get_secrets(secrets)
+
+    if isinstance(run, _OfflineRun):
+        # Retrieve values from arguments
+        host, user, password, account, warehouse, database, schema, protocol, port = input_args
+    else:
+        # Retrieve values from KeyVault
+        host, user, password, account, warehouse, database, schema, protocol, port = run.get_secrets(input_args)
 
     ctx = snowflake.connector.connect(
             host=host,
