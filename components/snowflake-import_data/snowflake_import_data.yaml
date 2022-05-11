@@ -1,6 +1,6 @@
 $schema: http://azureml/sdk-2-0/CommandComponent.json
 name: microsoft.com.snowflake.import_data
-version: 0.0.1.7
+version: 0.0.1.8
 display_name: Import Snowflake Data
 type: CommandComponent
 description: Load data from Snowflake.
@@ -16,37 +16,37 @@ inputs:
     optional: false
   snowflake_host:
     type: String
-    default: snowflake_host
+    default: snowflake-host
     description: Secret name where Snowflake host is stored in Keyvault
     optional: false
   snowflake_user:
     type: String
-    default: snowflake_user
+    default: snowflake-user
     description: Secret name where Snowflake user is stored in Keyvault
     optional: false
   snowflake_password:
     type: String
-    default: snowflake_password
+    default: snowflake-password
     description: Secret name where Snowflake host is stored in Keyvault
     optional: false
   snowflake_account:
     type: String
-    default: snowflake_account
+    default: snowflake-account
     description: Secret name where Snowflake account is stored in Keyvault
     optional: false
   snowflake_warehouse:
     type: String
-    default: snowflake_warehouse
+    default: snowflake-warehouse
     description: Secret name where Snowflake warehouse is stored in Keyvault
     optional: false
   snowflake_database:
     type: String
-    default: snowflake_database
+    default: snowflake-database
     description: Secret name where Snowflake database is stored in Keyvault
     optional: false
   snowflake_schema:
     type: String
-    default: snowflake_schema
+    default: snowflake-schema
     description: Secret name where Snowflake schema is stored in Keyvault
     optional: false
   snowflake_protocol:
