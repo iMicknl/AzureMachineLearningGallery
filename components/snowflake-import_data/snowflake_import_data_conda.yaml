@@ -1,14 +1,11 @@
-name: languages_detection_component_environment
+name: snowflake_import_data_component_environment
 channels:
 - defaults
 dependencies:
-- python=3.7
-- pip=20.2
+- python=3.9
+- pip=22.0
 - pip:
-  - PyYAML
+  - snowflake-connector-python[secure-local-storage,pandas]
   - azureml-designer-core==0.0.54
   - azureml-defaults
   - pyarrow
-  - fasttext==0.9.1
-  - pycountry==19.8.18
-  - wget==3.2
