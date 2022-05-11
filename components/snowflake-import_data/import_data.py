@@ -1,3 +1,4 @@
+""" Import Snowflake Data"""
 import argparse
 import snowflake.connector
 
@@ -8,6 +9,7 @@ from azureml.studio.core.logger import module_logger as logger
 from azureml.core.run import _OfflineRun
 
 def main():
+    """ Main """
     logger.debug("Initializing Snowflake Import Data component ...")
 
     # See all possible arguments in xxxx
@@ -53,7 +55,8 @@ def main():
             database=database,
             schema=schema,
             protocol=protocol,
-            port=port)
+            port=port
+    )
 
     # Create a cursor object.
     cur = ctx.cursor()
@@ -63,15 +66,15 @@ def main():
     
     try:
         cur.execute(sql) 
-        df = cur.fetch_pandas_all() # consider using cur.fetch_pandas_batches()
+        snowflake_df = cur.fetch_pandas_all() # consider using cur.fetch_pandas_batches()
     finally:
         # Always close connections if there is an error
         cur.close()
 
     # Fetch the result set from the cursor and deliver it as the Pandas DataFrame.
     save_data_frame_to_directory(save_to=args.results_dataset,
-                                 data=df,
-                                 schema=DataFrameSchema.data_frame_to_dict(df))
+                                 data=snowflake_df,
+                                 schema=DataFrameSchema.data_frame_to_dict(snowflake_df))
 
     ctx.close()
 
