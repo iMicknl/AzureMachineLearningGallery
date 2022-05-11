@@ -1,13 +1,16 @@
-""" Import Snowflake Data"""
+""" Export Snowflake Data"""
 import argparse
-import os
 import snowflake.connector
 
 from azureml.core import Run
-from azureml.studio.core.io.data_frame_directory import save_data_frame_to_directory
 from azureml.studio.core.data_frame_schema import DataFrameSchema
 from azureml.studio.core.logger import module_logger as logger
 from azureml.core.run import _OfflineRun
+
+from snowflake.connector.pandas_tools import write_pandas
+from azureml.studio.core.io.data_frame_directory import load_data_frame_from_directory
+
+
 
 def main():
     """ Main """
@@ -19,7 +22,8 @@ def main():
     parser = argparse.ArgumentParser()
 
     # Input
-    parser.add_argument('--query', type=str, help='')
+    parser.add_argument('--input-dir', type=str, help='dataframe')
+    parser.add_argument('--table', type=str, help='')
 
     parser.add_argument('--host', type=str, help='')
     parser.add_argument('--user', type=str, help='')
@@ -32,7 +36,7 @@ def main():
     parser.add_argument('--port', type=str, help='')
 
     # Output
-    parser.add_argument('--output-dir', type=str, help='dataframe')
+    # none?
 
     args = parser.parse_args()
     input_args = [args.host, args.user, args.password, args.account,  args.warehouse, args.database, args.schema, args.protocol, args.port]
@@ -59,7 +63,10 @@ def main():
         schema = run.get_secret(args.host)
         protocol = args.protocol
         port = args.port
-        
+
+
+    # Create a DataFrame containing data about customers
+    df = load_data_frame_from_directory(args.input_dir).data
 
     ctx = snowflake.connector.connect(
             host=host,
@@ -73,26 +80,15 @@ def main():
             port=port
     )
 
-    # Create a cursor object.
-    cur = ctx.cursor()
-
-    # Execute a statement that will generate a result set.
-    sql = args.query or "SELECT * FROM t"
-    
     try:
-        cur.execute(sql) 
-        snowflake_df = cur.fetch_pandas_all() # consider using cur.fetch_pandas_batches()
+        # Write the data from the DataFrame to the table named "customers".
+        success, nchunks, nrows, _ = write_pandas(ctx, df, args.table) 
+        logger.debug(success, nchunks, nrows)
+
     finally:
         # Always close connections if there is an error
-        cur.close()
+        ctx.close()
 
-    # Fetch the result set from the cursor and deliver it as the Pandas DataFrame.
-    os.makedirs(args.output_dir, exist_ok=True)
-    save_data_frame_to_directory(save_to=args.output_dir,
-                                 data=snowflake_df,
-                                 schema=DataFrameSchema.data_frame_to_dict(snowflake_df))
-
-    ctx.close()
-
+    
 if __name__ == '__main__':
     main()

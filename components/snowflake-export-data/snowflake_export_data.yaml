@@ -1,0 +1,82 @@
+$schema: http://azureml/sdk-2-0/CommandComponent.json
+name: microsoft.com.snowflake.export_data
+version: 0.0.1.4
+display_name: Export Data to Snowflake
+type: CommandComponent
+description: Load data from Snowflake.
+tags:
+  Snowflake:
+  Data:
+  contact: https://github.com/azure/AzureMachineLearningGallery
+inputs:
+  input_dataset:
+    type: DataFrameDirectory
+  table_name:
+    type: String
+    description: Table name to write data to
+    optional: false
+  snowflake_host:
+    type: String
+    default: snowflake_host
+    description: Secret name where Snowflake host is stored in Keyvault
+    optional: false
+  snowflake_user:
+    type: String
+    default: snowflake_user
+    description: Secret name where Snowflake user is stored in Keyvault
+    optional: false
+  snowflake_password:
+    type: String
+    default: snowflake_password
+    description: Secret name where Snowflake host is stored in Keyvault
+    optional: false
+  snowflake_account:
+    type: String
+    default: snowflake_account
+    description: Secret name where Snowflake account is stored in Keyvault
+    optional: false
+  snowflake_warehouse:
+    type: String
+    default: snowflake_warehouse
+    description: Secret name where Snowflake warehouse is stored in Keyvault
+    optional: false
+  snowflake_database:
+    type: String
+    default: snowflake_database
+    description: Secret name where Snowflake database is stored in Keyvault
+    optional: false
+  snowflake_schema:
+    type: String
+    default: snowflake_schema
+    description: Secret name where Snowflake schema is stored in Keyvault
+    optional: false
+  snowflake_protocol:
+    type: Mode
+    enum:
+    - https
+    - http
+    default: https
+    optional: false
+  snowflake_port:
+    type: Integer
+    default: 443
+    optional: false
+outputs:
+
+command: >-
+  python export_data.py
+  --input-dir {inputs.input_dataset}
+  --table {inputs.table_name}
+  --host {inputs.snowflake_host} 
+  --user {inputs.snowflake_user} 
+  --password {inputs.snowflake_password} 
+  --account {inputs.snowflake_account} 
+  --warehouse {inputs.snowflake_warehouse} 
+  --database {inputs.snowflake_warehouse} 
+  --schema {inputs.snowflake_schema} 
+  --protocol {inputs.snowflake_protocol} 
+  --port {inputs.snowflake_port}
+environment:
+  conda:
+    conda_dependencies_file: snowflake_export_data_conda.yaml
+  os: Linux
