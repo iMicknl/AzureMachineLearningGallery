@@ -1,0 +1,14 @@
+name: languages_detection_component_environment
+channels:
+- defaults
+dependencies:
+- python=3.7
+- pip=20.2
+- pip:
+  - PyYAML
+  - azureml-designer-core==0.0.54
+  - azureml-defaults
+  - pyarrow
+  - fasttext==0.9.1
+  - pycountry==19.8.18
+  - wget==3.2
