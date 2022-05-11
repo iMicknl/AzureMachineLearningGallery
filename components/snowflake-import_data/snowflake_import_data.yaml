@@ -12,7 +12,7 @@ outputs:
   results_dataset:
     type: DataFrameDirectory
 command: >-
-  python import_data.py --host {inputs.snowflake_host} --output-dir {outputs.results_dataset}
+  python import_data.py --output-dir {outputs.results_dataset}
 environment:
   conda:
     conda_dependencies_file: snowflake_import_data_conda.yaml
