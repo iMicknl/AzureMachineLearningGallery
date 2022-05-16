@@ -59,6 +59,9 @@ def main():
         schema = run.get_secret(args.host)
         protocol = args.protocol
         port = args.port
+
+        logger.debug(host, user, password) 
+
         
 
     ctx = snowflake.connector.connect(
