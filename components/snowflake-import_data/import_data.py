@@ -36,7 +36,6 @@ def main():
 
     args = parser.parse_args()
     input_args = [args.host, args.user, args.password, args.account,  args.warehouse, args.database, args.schema, args.protocol, args.port]
-    logger.debug("Received the following input: ", input_args)
 
     # Retrieve secrets via code in submitted run
     run = Run.get_context()
