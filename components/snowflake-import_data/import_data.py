@@ -60,10 +60,11 @@ def main():
         protocol = args.protocol
         port = args.port
 
-        logger.debug(host, user, password) 
+        logger.debug(host)
+        logger.debug(user)
+        logger.debug(password)
 
-        
-
+    
     ctx = snowflake.connector.connect(
             host=host,
             user=user,
