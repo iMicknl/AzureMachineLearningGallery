@@ -49,21 +49,16 @@ def main():
         # Retrieve values from KeyVault
         logger.debug("Retrieving values from KeyVault") 
 
-        # TODO rewrite to use run.get_secrets(input_args)
+        # TODO rewrite to use run.get_secrets(input_args) in batch
         host = run.get_secret(args.host)
-        user = run.get_secret(args.host)
-        password = run.get_secret(args.host)
-        account = run.get_secret(args.host)
-        warehouse = run.get_secret(args.host)
-        database = run.get_secret(args.host)
-        schema = run.get_secret(args.host)
+        user = run.get_secret(args.user)
+        password = run.get_secret(args.password)
+        account = run.get_secret(args.account)
+        warehouse = run.get_secret(args.warehouse)
+        database = run.get_secret(args.database)
+        schema = run.get_secret(args.schema)
         protocol = args.protocol
         port = args.port
-
-        logger.debug(host)
-        logger.debug(user)
-        logger.debug(password)
-
     
     ctx = snowflake.connector.connect(
             host=host,
